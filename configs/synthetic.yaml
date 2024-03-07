@@ -1,0 +1,44 @@
+# dataset config
+dataset: 'synthetic'
+dataset_path: '../data/refnerf/toaster'
+
+
+# volume rendering config
+aabb: [-1.5,-1.5,-1.5,1.5,1.5,1.5]
+
+render_step_size: 5e-3
+render_step_size_n: 5e-2 # initial near-field feature step size
+
+batch_size: 512 # initial batch_size
+target_sample_batch_size: 32768 #1<<15
+
+
+# model config
+sdf:
+    num_encode: 6
+    D: 8
+    C: 256
+    S: [4]
+    weight_norm: False
+
+nde:
+    Cx: 16
+    mlp_d: [64,64]
+    far:
+        C: 16
+        H: 64
+        L: 6
+    near:
+        C: 16
+        H: 512
+        L: 9
+        mlp: [64]
+    pre_decode: False
+
+
+# optimizer config
+optimizer: 'Adam'
+learning_rate: 5e-4
+weight_decay: 0.0
+scheduler_rate: 0.5
+milestones: [10000]
