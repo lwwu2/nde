@@ -133,8 +133,8 @@ class ModelTrainer(pl.LightningModule):
         n_update = 16
         if self.global_step > 20000:
             self.model.nde.render_step_size = 1e-2
-        #if self.global_step > 40000:
-        #    self.model.nde.render_step_size = 5e-3
+        if self.global_step > 40000:
+            self.model.nde.render_step_size = 5e-3
         
         
         
