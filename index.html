@@ -1,0 +1,342 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <meta name="description"
+    content="Neural Directional Encoding for Efficient and Accurate View-Dependent Appearance Modeling">
+  <meta name="keywords" content="NDE, NeRF">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Neural Directional Encoding for Efficient and Accurate View-Dependent Appearance Modeling</title>
+
+  <link href="https://fonts.googleapis.com/css?family=Google+Sans|Noto+Sans|Castoro" rel="stylesheet">
+
+  <link rel="stylesheet" href="./static/css/bulma.min.css">
+  <link rel="stylesheet" href="./static/css/bulma-carousel.min.css">
+  <link rel="stylesheet" href="./static/css/bulma-slider.min.css">
+  <link rel="stylesheet" href="./static/css/fontawesome.all.min.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/jpswalsh/academicons@1/css/academicons.min.css">
+  <link rel="stylesheet" href="./static/css/index.css">
+
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+  <script defer src="./static/js/fontawesome.all.min.js"></script>
+  <script src="./static/js/bulma-carousel.min.js"></script>
+  <script src="./static/js/bulma-slider.min.js"></script>
+
+  <link rel="stylesheet" href="./static/css/dics.original.css">
+  <script src="./static/js/dics.original.js"></script>
+  <script src="./static/js/dics_event_handler.js"></script>
+
+  <script src="./static/js/index.js"></script>
+
+
+  <script src="./static/css/app.css"></script>
+  <script src="./static/js/video_comparison.js"></script>
+</head>
+
+<body>
+
+
+  <section class="hero">
+    <div class="hero-body">
+      <div class="container is-max-desktop" style="max-width:1240px">
+        <div class="columns is-centered">
+          <div class="column has-text-centered">
+            <h1 class="title is-1 publication-title">
+              Neural Directional Encoding for Efficient and <br /> Accurate View-Dependent Appearance Modeling
+            </h1>
+            <div class="is-size-5 publication-authors">
+              <span class="author-block">
+                <a href="https://lwwu2.github.io">Liwen Wu</a><sup>1</sup>,</span>
+              <span class="author-block">
+                <a href="https://sai-bi.github.io">Sai Bi</a><sup>2</sup>,</span>
+              <span class="author-block">
+                <a href="https://zexiangxu.github.io">Zexiang Xu</a><sup>2</sup>,
+              </span>
+              <span class="author-block">
+                <a href="https://luanfujun.com">Fujun Luan</a><sup>2</sup>,
+              </span>
+              <span class="author-block">
+                <a href="https://kai-46.github.io/website">Kai Zhang</a><sup>2</sup>,
+              </span>
+              <span class="author-block">
+                <a href="https://www.iliyan.com">Iliyan Georgiev</a><sup>2</sup>,
+              </span>
+              <span class="author-block">
+                <a href="http://www.kalyans.org">Kalyan Sunkavalli</a><sup>2</sup>,
+              </span>
+              <span class="author-block">
+                <a href="https://cseweb.ucsd.edu//~ravir/">Ravi Ramamoorthi</a><sup>1</sup>
+              </span>
+              
+            </div>
+  
+            <div class="is-size-5 publication-authors">
+              <span class="author-block"><sup>1</sup>UC San Diego,</span>
+              <span class="author-block"><sup>2</sup>Adobe Research</span>
+            </div>
+
+            <div class="column has-text-centered">
+              <div class="publication-links">
+                <!-- PDF Link. -->
+                <span class="link-block">
+                  <a href="https://cseweb.ucsd.edu//~ravir/liwenwu_cvpr.pdf"
+                     class="external-link button is-normal is-rounded is-dark">
+                    <span class="icon">
+                        <i class="fas fa-file-pdf"></i>
+                    </span>
+                    <span>Paper</span>
+                  </a>
+                </span>
+                <span class="link-block">
+                  <a href="https://cseweb.ucsd.edu//~ravir/liwenwucvpr_supp.pdf"
+                     class="external-link button is-normal is-rounded is-dark">
+                    <span class="icon">
+                        <i class="fas fa-file-pdf"></i>
+                    </span>
+                    <span>Supplementary</span>
+                  </a>
+                </span>
+                <!-- Code Link. -->
+                <span class="link-block">
+                  <a href="https://github.com/lwwu2/nde"
+                     class="external-link button is-normal is-rounded is-dark">
+                    <span class="icon">
+                        <i class="fab fa-github"></i>
+                    </span>
+                    <span>Code</span>
+                    </a>
+                </span>
+              </div>
+  
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+
+  <section class="hero teaser">
+    <div class="hero-body">
+      <div class="container is-max-desktop">
+        <div class="columns is-centered has-text-centered">
+          <div class="content">
+            <video class="video" id="teaser" style="width:100%" loop playsinline autoPlay muted
+              src="./static/videos/teaser.mp4" onplay="resizeAndPlay(this)"></video>
+            <canvas height=0 class="videoMerge" style="width:50%" id="teaserMerge"></canvas>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+
+
+  <section class="section">
+    <div class="container is-max-desktop">
+      <!-- Abstract. -->
+      <div class="columns is-centered has-text-centered">
+        <div class="column is-four-fifths">
+          <h2 class="title is-3">Abstract</h2>
+          <div class="content has-text-justified">
+            <p>
+              Novel-view synthesis of specular objects like shiny metals or glossy paints remains a significant
+              challenge.
+              Not only the glossy appearance but also global illumination effects, including reflections of other
+              objects in the environment, are critical components to faithfully reproduce a scene.
+              In this paper, we present Neural Directional Encoding (NDE), a view-dependent appearance encoding of
+              neural radiance fields (NeRF) for rendering specular objects.
+              NDE transfers the concept of feature-grid-based spatial encoding to the angular domain, significantly
+              improving the ability to model high-frequency angular signals.
+              In contrast to previous methods that use encoding functions with only angular input, we additionally
+              cone-trace spatial features to obtain a spatially varying directional encoding, which addresses the
+              challenging interreflection effects.
+              Extensive experiments on both synthetic and real datasets show that a NeRF model with NDE (1) outperforms
+              the state of the art on view synthesis of specular objects, and (2) works with small networks to allow
+              fast (real-time) inference.
+            </p>
+          </div>
+        </div>
+      </div>
+      <!--/ Abstract. -->
+  </section>
+
+  <section class="hero teaser">
+    <div class="container is-max-desktop">
+      <h2 class="title is-3">
+        <center>Real-Time Web Rendering</center>
+      </h2>
+      <div class="hero-body">
+        <video id="teaser" autoplay muted loop playsinline controls="100%">
+          <source src="https://cseweb.ucsd.edu//~ravir/liwenwu_cvpr.mp4" type="video/mp4">
+        </video>
+
+        <p style="text-align: center;">
+          NDE is efficient and supports real-time web rendering. For all results in the video, we use
+          a MLP width of 64.
+        </p>
+      </div>
+    </div>
+  </section>
+
+
+  <section class="hero teaser">
+    <div class="container is-max-desktop">
+      <h2 class="title is-3">
+        <center>
+          Comparison with Baseline Methods
+        </center>
+      </h2>
+      <div class="hero-body">
+        <div class="columns is-1 is-multiline is-mobile">
+          <div class="column pb-0 mb-0 is-half">
+            <video id="teaser" autoplay muted loop playsinline controls="100%">
+              <source src="./static/videos/compare_helmet.mp4" type="video/mp4">
+            </video>
+          </div>
+          <div class="column pb-0 mb-0 is-half">
+            <video id="teaser" autoplay muted loop playsinline controls="100%">
+              <source src="./static/videos/compare_coffee.mp4" type="video/mp4">
+            </video>
+          </div>
+        </div>
+
+
+        <div class="columns is-1 is-multiline is-mobile">
+          <div class="column pb-0 mb-0 is-half">
+            <video id="teaser" autoplay muted loop playsinline controls="100%">
+              <source src="./static/videos/compare_toaster.mp4" type="video/mp4">
+            </video>
+          </div>
+          <div class="column pb-0 mb-0 is-half">
+            <video id="teaser" autoplay muted loop playsinline controls="100%">
+              <source src="./static/videos/compare_car.mp4" type="video/mp4">
+            </video>
+          </div>
+        </div>
+
+        <br />
+        <div class="container is-max-desktop" style="max-width:840px">
+          <div class="columns is-centered">
+            <div class="column">
+              <div class="content">
+                <h5 class="title is-5">Comparison on fine angular details</h5>
+                <div class="b-dics" style="width: 100%">
+                  <img src="./static/images/materials_envidr.png" alt="ENVIDR">
+                  <img src="./static/images/materials_ours.png" alt="Ours">
+                  <img src="./static/images/materials_refnerf.png" alt="Ref-NeRF">
+                </div>
+              </div>
+            </div>
+
+            <div class="column">
+              <div class="content">
+                <h5 class="title is-5">Comparison to NeRO on real dataset</h5>
+                <div class="b-dics" style="width: 100%">
+                  <img src="./static/images/vase_nero.png" alt="NeRO">
+                  <img src="./static/images/vase_ours.png" alt="Ours">
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+
+
+  <section class="section">
+    <div class="container is-max-desktop">
+      <div class="columns is-centered">
+        <div class="content">
+          <h2 class="title is-3">Results on Real Scenes from NeRO dataset</h2>
+        </div>
+      </div>
+
+      <div class="container is-max-desktop">
+        <div class="columns is-centered">
+          <div class="column">
+            <div class="content">
+              <!-- <h2 class="title is-4">Object & reflection removing</h2> -->
+              <video  autoplay controls muted loop playsinline height="100%">
+                <source src="./static/videos/vase.mp4" type="video/mp4">
+              </video>
+            </div>
+          </div>
+
+          <div class="column">
+            <div class="content">
+              <video autoplay controls muted loop playsinline height="100%">
+                <source src="./static/videos/bunny.mp4" type="video/mp4">
+              </video>
+            </div>
+          </div>
+        </div>
+
+        <p style="text-align: center;">
+          Here we render the foreground objects without the reflections from the capturer. 
+          Note that the flickering on the cardboard is due to frequently-changing shading caused by the moving capturer.  
+        </p>
+
+  </section>
+
+
+
+
+
+
+  <section class="section">
+    <div class="container is-max-desktop">
+      <div class="columns is-centered">
+        <div class="content">
+          <h2 class="title is-3">Applications on Editing</h2>
+        </div>
+      </div>
+
+      <div class="container is-max-desktop">
+        <div class="columns is-centered">
+          <div class="column">
+            <div class="content">
+              <!-- <h2 class="title is-4">Object & reflection removing</h2> -->
+              <video onloadstart="this.playbackRate = 1.25;" autoplay controls muted loop playsinline height="100%">
+                <source src="./static/videos/edit1.mp4" type="video/mp4">
+              </video>
+            </div>
+          </div>
+
+          <div class="column">
+            <div class="content">
+              <video onloadstart="this.playbackRate = 1.25;" autoplay controls muted loop playsinline height="100%">
+                <source src="./static/videos/edit2.mp4" type="video/mp4">
+              </video>
+            </div>
+          </div>
+        </div>
+
+        <!-- <div class="hero-body" style="text-align:center;"> -->
+        <p style="text-align: center;">
+          NDE supports removal of objects and their reflections from the scene.
+        </p>
+  </section>
+
+
+  <footer class="footer">
+    <div class="container">
+      <div class="columns is-centered">
+        <div class="column is-8">
+          <div class="content">
+            <p>
+              We borrow the source code of this website from <a
+                href="https://github.com/nerfies/nerfies.github.io">HERE</a>.
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+</body>
+
+</html>
