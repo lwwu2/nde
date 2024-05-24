@@ -1,5 +1,7 @@
 # NDE: Neural Directional Encoding
 This repo contains the training code and demo for NDE.
+### [Project Page](https://lwwu2.github.io/nde/) | [Paper](https://arxiv.org/abs/2405.14847) | [Citation](#citation)
+
 ## Setup
 
 - python 3.8
@@ -33,3 +35,11 @@ python train.py --experiment_name=EXPERIMENT_NAME --device=GPU_DEVICE\
 3. For view synthesis results, see `demo/demo.ipynb`
 
 ## Citation
+```
+@inproceedings{wu2024neural,
+  author = {Liwen Wu and Sai Bi and Zexiang Xu and Fujun Luan and Kai Zhang and Iliyan Georgiev and Kalyan Sunkavalli and Ravi Ramamoorthi},
+  title = {Neural Directional Encoding for Efficient and Accurate View-Dependent Appearance Modeling},
+  booktitle = {CVPR},
+  year = {2024}
+}
+```
